@@ -1,0 +1,186 @@
+@function is-dark-on-light($color, $bgcolor) {
+    @return lightness($bgcolor) > lightness($color);
+}
+
+@mixin unselectable {
+	-webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -o-user-select: none;
+    user-select: none;
+}
+
+@mixin selectable {
+	-webkit-user-select: text;
+    -khtml-user-select: text;
+    -moz-user-select: text;
+    -o-user-select: text;
+    user-select: text;
+}
+
+@mixin inline-block {
+    vertical-align: top;
+    display: inline-block;
+    // IE7 fix
+    *display: inline;
+    zoom: 1;
+}
+
+// adds a letter "press" effect to the text. this effects only works if the
+// surrounding color is lighter than the text color
+@mixin press($color, $blur: 2px, $intensity: 90) {
+    color: $color;
+    text-shadow: 0 1px $blur lighten($color, $intensity);
+}
+
+
+// adds a letter "pop" effect to the text. this effects only works if the
+// surrounding color is darken than the text color
+@mixin pop($color, $blur: 2px, $intensity: 90) {
+    color: $color;
+    text-shadow: 0 1px $blur darken($color, $intensity);
+}
+
+
+// dynamically determines which text-shadow to be applied based on the
+// color and background color.
+@mixin text-shadow($color, $bgcolor, $blur: 2px, $intensity: 90) {
+    @if is-dark-on-light($color, $bgcolor) {
+        @include press($color, $blur, $intensity);
+    } @else {
+        @include pop($color, $blur, $intensity);
+    }
+}
+
+
+// renders a single cross-browser shadow
+@mixin shadow($s) {
+	-webkit-box-shadow: $s;
+    -khtml-box-shadow: $s;
+	-moz-box-shadow: $s; 
+    -o-box-shadow: $s;
+	box-shadow: $s;
+}
+
+
+// renders two shadows
+@mixin dual-shadow($s1, $s2) {
+	-webkit-box-shadow: $s1, $s2;
+    -khtml-box-shadow: $s1, $s2;
+	-moz-box-shadow: $s1, $s2; 
+    -o-box-shadow: $s1, $s2;
+	box-shadow: $s1, $s2;
+}
+
+
+// renders three shadows
+@mixin tri-shadow($s1, $s2, $s3) {
+	-webkit-box-shadow: $s1, $s2, $s3;
+    -khtml-box-shadow: $s1, $s2, $s3;
+	-moz-box-shadow: $s1, $s2, $s3; 
+    -o-box-shadow: $s1, $s2, $s3;
+	box-shadow: $s1, $s2, $s3;
+}
+
+
+// sets the opacity of an element. this is not to be confused with
+// the official Sass function that "opacifies" a color
+@mixin opacify($p) {
+    filter: alpha(opacity=$p);
+    -webkit-opacity: $p/100;
+    -khtml-opacity: $p/100;
+    -moz-opacity: $p/100;
+    -o-opacity: $p/100;
+    opacity: $p/100;
+}
+
+
+// sets the border radius of an element
+@mixin radius($r) {
+    -webkit-border-radius: $r;
+    -khtml-border-radius: $r;
+    -moz-border-radius: $r;
+    -o-border-radius: $r;
+    border-radius: $r;
+}
+
+
+// sets the background of an element with a vertical linear gradient
+@mixin vertical-gradient($c1, $c2) {
+    background: $c1; /* Old browsers */
+    background: -moz-linear-gradient(top, $c1 0%, $c2 100%); /* FF3.6+ */
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, $c1), color-stop(100%, $c2)); /* Chrome,Safari4+ */
+    background: -webkit-linear-gradient(top, $c1 0%, $c2 100%); /* Chrome10+,Safari5.1+ */
+    background: -o-linear-gradient(top, $c1 0%, $c2 100%); /* Opera11.10+ */
+    background: -ms-linear-gradient(top, $c1 0% ,$c2 100%); /* IE10+ */
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#{$c1}', endColorstr='#{$c2}',GradientType=0 ); /* IE6-9 */
+    background: linear-gradient(top, $c1 0%, $c2 100%); /* W3C */
+}
+
+@mixin glass-gradient($c1, $c2) {
+    background: $c1; /* Old browsers */
+    background: -moz-linear-gradient(top, $c1 0%, lighten($c1, 10) 50%, $c2 51%, lighten($c2, 10) 100%); /* FF3.6+ */
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, $c1), color-stop(50%, lighten($c1, 10)), color-stop(51%, $c2), color-stop(100%, lighten($c2, 10))); /* Chrome,Safari4+ */
+    background: -webkit-linear-gradient(top, $c1 0%, lighten($c1, 10) 50%, $c2 51%, lighten($c2, 10) 100%); /* Chrome10+,Safari5.1+ */
+    background: -o-linear-gradient(top, $c1 0%, lighten($c1, 10) 50%, $c2 51%, lighten($c2, 10) 100%); /* Opera11.10+ */
+    background: -ms-linear-gradient(top, $c1 0%, lighten($c1, 10) 50%, $c2 51%, lighten($c2, 10) 100%); /* IE10+ */
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='$c1', endColorstr='$c2', GradientType=0 ); /* IE6-9 */
+    background: linear-gradient(top, $c1 0%, lighten($c1, 10) 50%, $c2 51%, lighten($c2, 10) 100%); /* W3C */
+}    
+
+
+// WebKit only: sets the scrollbar to be thinner and less obtrusive
+@mixin vertical-thin-scrollbar {
+    &::-webkit-scrollbar { width: 5px; padding-right: 2px; }
+
+    &::-webkit-scrollbar-thumb {
+    
+        &:vertical {
+            background: rgba(0, 0, 0, 0.15);
+            -webkit-border-radius: 10px;
+            border-radius: 10px;
+        }
+    }    
+}
+
+
+// WebKit only: sets the scrollbar to be thinner and less obtrusive
+@mixin horizontal-thin-scrollbar {
+    &::-webkit-scrollbar { height: 5px; }
+
+    &::-webkit-scrollbar-thumb {
+        &:horizontal {
+            background: rgba(0, 0, 0, 0.15);
+            -webkit-border-radius: 10px;
+            border-radius: 10px;
+        }
+    }    
+}
+
+
+// sets the appearance of an input element to have the Mac OS X-style
+// search boxes
+@mixin search-box {
+    @include radius(15px);
+    @include shadow(inset 2px 2px 3px #ccc);
+    
+    background: #fff url(../img/icons/search.png) no-repeat 3px;
+    padding: 2px 5px 2px 21px;
+    border: 1px solid #777;
+}
+
+
+@mixin background-style($color, $bgcolor, $style: none) {
+    background: $bgcolor;
+
+    @if $style == glossy {
+        @include dual-shadow(
+            inset 0 1px 2px lighten($bgcolor, 60),
+            inset 0 -1px 2px darken($bgcolor, 10)
+        );
+    } @else if $style == glass {
+        @include glass-gradient($bgcolor, darken($bgcolor, 10));
+    } @else if $style == matte {
+        @include shadow(inset 0 -3px 3px darken($bgcolor, 5));
+    }
+}

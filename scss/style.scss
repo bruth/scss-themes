@@ -1,0 +1,103 @@
+@import "partials/boilerplate";
+@import "partials/mixins";
+@import "partials/elements";
+
+body {
+    margin: 10px;
+    background-color: #aaa;
+    font-size: 1.1em;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    -webkit-text-stroke-width: 0.5px;
+}
+
+button {
+    font-size: 0.8em;
+    font-weight: 400;
+}
+
+.container {
+    margin-bottom: 20px;
+}
+
+.creme {
+    @include shadow(0 2px 5px #666);
+    @include radius(4px);
+
+    .title {
+        @include section(#f9f9f9, #444, $button-color: #444,
+            $button-bgcolor: #f9f9f9, $style: matte);
+        @include radius(4px 4px 0 0);
+    }
+
+    .info {
+        @include section(#444, #faf6ed, $button-color: #faf6ed,
+            $button-bgcolor: #444, $style: matte);
+        border-bottom: none;
+    }
+
+    .toolbar {
+        @include section(#444, #f9f9f9, $button-color: #f9f9f9,
+            $button-bgcolor: #444, $style: none);
+        @include shadow(inset 0 2px 2px #ccc);
+        border-bottom: none;
+    }
+
+    .content {
+        @include section(#444, #f9f9f9, $style: none);
+        @include radius(0 0 4px 4px);
+        border-top: none;
+    }
+}
+
+.retro {
+    @include shadow(0 2px 5px #666);
+    @include radius(4px);
+
+    .title {
+        @include section(#fff, #58b0b8);
+        @include radius(4px 4px 0 0);
+    }
+
+    .info {
+        @include section(#999, #eee, $button-color: darken(#f3f2d3, 70), $button-bgcolor: #f3f2d3);
+        border-top: none;
+        border-bottom: none;
+    }
+
+    .toolbar {
+        @include section(#999, #eee, $style: matte);
+    }
+
+    .content {
+        @include section(#444, #f9f9f9, $style: none);
+        @include radius(0 0 4px 4px);
+        border-top: none;
+    }
+}
+
+.clean {
+    @include shadow(0 2px 5px #666);
+    @include radius(4px);
+
+    .title {
+        @include section(#333, #eee);
+        @include radius(4px 4px 0 0);
+        @include shadow(none);
+        border-bottom: none;
+    }
+
+    .toolbar {
+        @include section(#333, #fff);
+        @include shadow(none);
+        border-bottom: none;
+    }
+
+    .content {
+        @include section(#333, #fff);
+        @include radius(0 0 4px 4px);
+        border-top: none;
+        -webkit-text-stroke-width: 0.25px;
+    }
+}
